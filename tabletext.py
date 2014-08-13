@@ -93,7 +93,8 @@ def main():
                         lenghts", nargs=2, type=int, metavar="<n>",
                         default=[1, 1])
     parser.add_argument("--format", help="format string for the table entries",
-                        default="", dest="formats", metavar="FORMAT")
+                        default="", dest="formats", metavar="FORMAT",
+                        type=unicode)
     parser.add_argument("--header", help="format first row as header",
                         action="store_true")
     parser.add_argument("--hhor", help="horizontal line character \
