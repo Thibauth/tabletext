@@ -79,7 +79,8 @@ def add_width(format_string, width):
 def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤└┴┘",
                 header_corners="╒╤╕╞╪╡", header_hor="═", header_ver="│",
                 header=False, hor="─", ver="│"):
-    sys.stdout = getwriter('utf8')(sys.stdout)
+    if sys.version < '3':
+        sys.stdout = getwriter('utf8')(sys.stdout)
     n_columns = max(len(row) for row in table)
     if not formats:
         formats = [""] * n_columns
