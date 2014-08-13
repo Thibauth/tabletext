@@ -46,6 +46,8 @@ def format_row(row, formats, padding, ver):
 
 
 def add_width(format_string, width):
+    if width == 0:
+        return format_string
     regexp = r",?(\.\d+)?(b|c|d|e|E|f|F|g|G|n|o|s|x|X|%)?"
     match = re.match(regexp, format_string)
     begin, end = match.span()
