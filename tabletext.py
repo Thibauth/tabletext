@@ -26,7 +26,7 @@ def top_rule(widths, corners, hor):
 
 def inner_rule(widths, corners, hor):
     return (corners[3] + corners[4].join(hor * width for width in widths)
-            + corners[5]) + "\n"
+            + corners[5])
 
 
 def bottom_rule(widths, corners, hor):
@@ -42,7 +42,7 @@ def format_entry(entry, format_string, padding):
 def format_row(row, formats, padding, ver):
     return (ver + ver.join(format_entry(entry, format_string, padding)
                            for entry, format_string in zip(row, formats))
-            + ver) + "\n"
+            + ver)
 
 
 def add_width(format_string, width):
@@ -68,14 +68,14 @@ def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤
     formats = add_widths(formats, widths, padding)
     if header:
         print top_rule(widths, header_corners, header_hor)
-        print format_row(table[0], formats, padding, header_ver),
-        print inner_rule(widths, header_corners, header_hor),
+        print format_row(table[0], formats, padding, header_ver)
+        print inner_rule(widths, header_corners, header_hor)
         table = table[1:]
     else:
         print top_rule(widths, corners, hor)
-    print inner_rule(widths, corners, hor).join(format_row(row, formats,
-                                                           padding, ver)
-                                                for row in table),
+    print ("\n" + inner_rule(widths, corners, hor)
+           + "\n").join(format_row(row, formats, padding, ver)
+                        for row in table)
     print bottom_rule(widths, corners, hor)
 
 
