@@ -111,6 +111,8 @@ def main():
     parser.add_argument("--hcorners", help="corner characters for \
                         the header row", metavar="CHARS",
                         dest="header_corners", default="╒╤╕╞╪╡")
+    parser.add_argument("-s", "--sep", help="interpret CHAR as column\
+                        separator in the input", metavar="CHAR", default=r"\t")
     parser.add_argument("file", help="file to render or - to read from STDIN",
                         nargs="?", default="-", metavar="FILE")
     parser.add_argument("--version", "-v", action="version",
@@ -121,10 +123,11 @@ def main():
         args.file = sys.stdin
     else:
         args.file = open(args.file, encoding="utf-8")
-
-    table = [line.strip().split("\t") for line in args.file.readlines()]
+    sep = args.sep.replace(r"\t", "\t")
+    table = [line.strip().split(sep) for line in args.file.readlines()]
     args = vars(args)
     del args["file"]
+    del args["sep"]
     print_table(table, **args)
 
 if __name__ == "__main__":
