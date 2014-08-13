@@ -64,6 +64,8 @@ def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤
         formats = [formats] * len(table[-1])
     if len(corners) == 1:
         corners = corners * 9
+    if len(header_corners) == 1:
+        header_corners = header_corners * 6
     widths = get_widths(table, formats, padding)
     formats = add_widths(formats, widths, padding)
     if header:
