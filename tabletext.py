@@ -76,11 +76,9 @@ def add_width(format_string, width):
         return format_string + str(width)
 
 
-def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤└┴┘",
-                header_corners="╒╤╕╞╪╡", header_hor="═", header_ver="│",
-                header=False, hor="─", ver="│"):
-    if sys.version < '3':
-        sys.stdout = getwriter('utf8')(sys.stdout)
+def to_text(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤└┴┘",
+            header_corners="╒╤╕╞╪╡", header_hor="═", header_ver="│",
+            header=False, hor="─", ver="│"):
     n_columns = max(len(row) for row in table)
     if not formats:
         formats = [""] * n_columns
@@ -92,17 +90,19 @@ def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤
         header_corners = header_corners * 6
     widths = get_widths(table, formats, padding)
     formats = add_widths(formats, widths, padding)
+    r = []
     if header:
-        print top_rule(widths, header_corners, header_hor)
-        print format_row(table[0], formats, padding, header_ver)
-        print inner_rule(widths, header_corners, header_hor)
+        r.append(top_rule(widths, header_corners, header_hor))
+        r.append(format_row(table[0], formats, padding, header_ver))
+        r.append(inner_rule(widths, header_corners, header_hor))
         table = table[1:]
     else:
-        print top_rule(widths, corners, hor)
-    print ("\n" + inner_rule(widths, corners, hor)
-           + "\n").join(format_row(row, formats, padding, ver)
-                        for row in table)
-    print bottom_rule(widths, corners, hor)
+        r.append(top_rule(widths, corners, hor))
+    r.append(("\n" + inner_rule(widths, corners, hor)
+              + "\n").join(format_row(row, formats, padding, ver)
+                           for row in table))
+    r.append(bottom_rule(widths, corners, hor))
+    return "\n".join(r)
 
 
 def main():
@@ -160,7 +160,9 @@ There is NO WARRANTY, to the extent permitted by law.  """)
     args = vars(args)
     del args["file"]
     del args["sep"]
-    print_table(table, **args)
+    if sys.version < '3':
+        sys.stdout = getwriter('utf8')(sys.stdout)
+    print to_text(table, **args)
 
 if __name__ == "__main__":
     main()
