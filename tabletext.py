@@ -1,7 +1,25 @@
 # -*- coding: utf-8 -*-
+# tabletext 0.1
+#
+# Copyright (C) 2014  Thibaut Horel <thibaut.horel@gmail.com>
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 from __future__ import unicode_literals
 import re
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter,\
+    RawDescriptionHelpFormatter
 import sys
 from codecs import open, getwriter
 from itertools import izip_longest
@@ -87,20 +105,21 @@ def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤
 
 
 def main():
-    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter,
-                            description="Format the input into a table\
-                            with borders, writing the result to standard\
-                            output.\
-                            Each TAB separated line from FILE or standard\
-                            input will become one row in the output table.")
+    class MyFormatter(ArgumentDefaultsHelpFormatter,
+                      RawDescriptionHelpFormatter):
+        pass
+    parser = ArgumentParser(formatter_class=MyFormatter,
+                            description="""
+Format the input into a table with borders, writing the result to standard
+output. Each TAB separated line from FILE will become a row in the output.""")
     parser.add_argument("--hor", help="horizontal line character",
                         metavar="CHAR", default="─")
     parser.add_argument("--ver", help="vertical line character",
                         metavar="CHAR", default="│")
     parser.add_argument("--corners", help="corner characters", metavar="CHARS",
                         default="┌┬┐├┼┤└┴┘")
-    parser.add_argument("--padding", help="left and right horizontal padding \
-                        lenghts", nargs=2, type=int, metavar="<n>",
+    parser.add_argument("--padding", help="left and right padding lengths",
+                        nargs=2, type=int, metavar="<n>",
                         default=[1, 1])
     parser.add_argument("--format", help="format string for the table entries",
                         default="", dest="formats", metavar="FORMAT",
@@ -108,7 +127,7 @@ def main():
     parser.add_argument("--header", help="format first row as header",
                         action="store_true")
     parser.add_argument("--hhor", help="horizontal line character \
-                        for the header row", metavar="CHAR", dest="header_hor",
+                        for the header", metavar="CHAR", dest="header_hor",
                         default="═")
     parser.add_argument("--hver", help="vertical line character \
                         for the header row", metavar="CHAR", dest="header_ver",
@@ -122,7 +141,13 @@ def main():
                         or -, read from STDIN",
                         nargs="?", default="-", metavar="FILE")
     parser.add_argument("--version", "-v", action="version",
-                        version="%(prog)s 0.1")
+                        help="output version information and exit",
+                        version="""
+%(prog)s 0.1
+Copyright (C) 2014 Thibaut Horel <thibaut.horel@gmail.com>
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  """)
     args = parser.parse_args()
 
     if args.file == "-":
