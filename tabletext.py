@@ -25,46 +25,49 @@ from codecs import open, getwriter
 from itertools import izip_longest
 
 
-def get_widths(table, formats, padding):
+__all__ = ["to_text"]
+
+
+def _get_widths(table, formats, padding):
     columns = izip_longest(*table, fillvalue="")
-    return [max(len(format_entry(entry, format_string, padding))
+    return [max(len(_format_entry(entry, format_string, padding))
                 for entry in column)
             for column, format_string in zip(columns, formats)]
 
 
-def add_widths(formats, widths, padding):
-    return [add_width(format_string, width - sum(padding))
+def _add_widths(formats, widths, padding):
+    return [_add_width(format_string, width - sum(padding))
             for format_string, width in zip(formats, widths)]
 
 
-def top_rule(widths, corners, hor):
+def _top_rule(widths, corners, hor):
     return (corners[0] + corners[1].join(hor * width for width in widths)
             + corners[2])
 
 
-def inner_rule(widths, corners, hor):
+def _inner_rule(widths, corners, hor):
     return (corners[3] + corners[4].join(hor * width for width in widths)
             + corners[5])
 
 
-def bottom_rule(widths, corners, hor):
+def _bottom_rule(widths, corners, hor):
     return (corners[6] + corners[7].join(hor * width for width in widths)
             + corners[8])
 
 
-def format_entry(entry, format_string, padding):
+def _format_entry(entry, format_string, padding):
     format_string = "{0:" + format_string + "}"
     return " " * padding[0] + format_string.format(entry) + " " * padding[1]
 
 
-def format_row(row, formats, padding, ver):
-    return (ver + ver.join(format_entry(entry, format_string, padding)
+def _format_row(row, formats, padding, ver):
+    return (ver + ver.join(_format_entry(entry, format_string, padding)
                            for entry, format_string
                            in izip_longest(row, formats, fillvalue=""))
             + ver)
 
 
-def add_width(format_string, width):
+def _add_width(format_string, width):
     if width == 0:
         return format_string
     regexp = r",?(\.\d+)?(b|c|d|e|E|f|F|g|G|n|o|s|x|X|%)?"
@@ -88,20 +91,20 @@ def to_text(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤└�
         corners = corners * 9
     if len(header_corners) == 1:
         header_corners = header_corners * 6
-    widths = get_widths(table, formats, padding)
-    formats = add_widths(formats, widths, padding)
+    widths = _get_widths(table, formats, padding)
+    formats = _add_widths(formats, widths, padding)
     r = []
     if header:
-        r.append(top_rule(widths, header_corners, header_hor))
-        r.append(format_row(table[0], formats, padding, header_ver))
-        r.append(inner_rule(widths, header_corners, header_hor))
+        r.append(_top_rule(widths, header_corners, header_hor))
+        r.append(_format_row(table[0], formats, padding, header_ver))
+        r.append(_inner_rule(widths, header_corners, header_hor))
         table = table[1:]
     else:
-        r.append(top_rule(widths, corners, hor))
-    r.append(("\n" + inner_rule(widths, corners, hor)
-              + "\n").join(format_row(row, formats, padding, ver)
+        r.append(_top_rule(widths, corners, hor))
+    r.append(("\n" + _inner_rule(widths, corners, hor)
+              + "\n").join(_format_row(row, formats, padding, ver)
                            for row in table))
-    r.append(bottom_rule(widths, corners, hor))
+    r.append(_bottom_rule(widths, corners, hor))
     return "\n".join(r)
 
 
