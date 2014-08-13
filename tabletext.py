@@ -83,8 +83,11 @@ def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤
 
 def main():
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter,
-                            description="Render tab separated data as \
-                            a table.")
+                            description="Format the input into a table\
+                            with borders, writing the result to standard\
+                            output.\
+                            Each TAB separated line from FILE or standard\
+                            input will become one row of the output table.")
     parser.add_argument("--hor", help="horizontal line character",
                         metavar="CHAR", default="─")
     parser.add_argument("--ver", help="vertical line character",
