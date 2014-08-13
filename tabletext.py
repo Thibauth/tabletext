@@ -118,7 +118,8 @@ def main():
                         dest="header_corners", default="╒╤╕╞╪╡")
     parser.add_argument("-s", "--sep", help="interpret CHAR as column\
                         separator in the input", metavar="CHAR", default=r"\t")
-    parser.add_argument("file", help="file to render or - to read from STDIN",
+    parser.add_argument("file", help="file to format. When FILE is absent\
+                        or -, read from STDIN",
                         nargs="?", default="-", metavar="FILE")
     parser.add_argument("--version", "-v", action="version",
                         version="%(prog)s 0.1")
