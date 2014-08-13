@@ -41,7 +41,8 @@ def format_entry(entry, format_string, padding):
 
 def format_row(row, formats, padding, ver):
     return (ver + ver.join(format_entry(entry, format_string, padding)
-                           for entry, format_string in zip(row, formats))
+                           for entry, format_string
+                           in izip_longest(row, formats, fillvalue=""))
             + ver)
 
 
@@ -61,10 +62,11 @@ def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤
                 header_corners="╒╤╕╞╪╡", header_hor="═", header_ver="│",
                 header=False, hor="─", ver="│"):
     sys.stdout = getwriter('utf8')(sys.stdout)
+    n_columns = max(len(row) for row in table)
     if not formats:
-        formats = [""] * len(table[-1])
+        formats = [""] * n_columns
     elif type(formats) is unicode:
-        formats = [formats] * len(table[-1])
+        formats = [formats] * n_columns
     if len(corners) == 1:
         corners = corners * 9
     if len(header_corners) == 1:
