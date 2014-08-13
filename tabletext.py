@@ -90,7 +90,7 @@ def main():
                             with borders, writing the result to standard\
                             output.\
                             Each TAB separated line from FILE or standard\
-                            input will become one row of the output table.")
+                            input will become one row in the output table.")
     parser.add_argument("--hor", help="horizontal line character",
                         metavar="CHAR", default="─")
     parser.add_argument("--ver", help="vertical line character",
