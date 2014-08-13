@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import re
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import sys
-from codecs import open
+from codecs import open, getwriter
 from itertools import izip_longest
 
 
@@ -58,6 +58,7 @@ def add_width(format_string, width):
 def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤└┴┘",
                 header_corners="╒╤╕╞╪╡", header_hor="═", header_ver="│",
                 header=False, hor="─", ver="│"):
+    sys.stdout = getwriter('utf8')(sys.stdout)
     if not formats:
         formats = [""] * len(table[-1])
     elif type(formats) is unicode:
