@@ -60,8 +60,8 @@ def print_table(table, formats=None, padding=(1, 1), corners="┌┬┐├┼┤
                 header=False, hor="─", ver="│"):
     if not formats:
         formats = [""] * len(table[-1])
-    elif type(formats) is str:
-        formats = formats * len(table[-1])
+    elif type(formats) is unicode:
+        formats = [formats] * len(table[-1])
     if len(corners) == 1:
         corners = corners * 9
     widths = get_widths(table, formats, padding)
