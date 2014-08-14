@@ -112,10 +112,14 @@ def main():
     class MyFormatter(ArgumentDefaultsHelpFormatter,
                       RawDescriptionHelpFormatter):
         pass
+
     parser = ArgumentParser(formatter_class=MyFormatter,
                             description="""
 Format the input into a table with borders, writing the result to standard
-output. Each TAB separated line from FILE will become a row in the output.""")
+output. Each TAB separated line from FILE will become a row in the output.""",
+                            epilog="""
+For more details and bug reports, see: https://github.com/Thibauth/tabletext"""
+                            )
     parser.add_argument("--hor", help="horizontal line character",
                         metavar="CHAR", default="─")
     parser.add_argument("--ver", help="vertical line character",
