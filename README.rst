@@ -11,7 +11,9 @@ its input into a table and prints it on the standard output.
 Installation
 ------------
 
-``tabletext`` is available on Pypi and can be installed with:
+``tabletext`` is available on Pypi_ and can be installed with:
+
+.. _Pypi: https://pypi.python.org/pypi/tabletext
 
 .. code-block:: bash
 
@@ -44,7 +46,7 @@ sequence's elements are the rows of the table.
 
 will output the following:
 
-.. code::
+.. code:: bash
 
     ┌──────┬──────────────────────┐
     │ Code │ Name                 │
@@ -69,7 +71,7 @@ You can customize the output with optional arguments:
 
 will output:
 
-.. code::
+.. code:: bash
 
     +======+======================+
     ! Code ! Name                 !
@@ -159,8 +161,8 @@ More about some options:
   used for all entries, or a list of format strings, one per column of the
   table. The format strings must follow Python's `format specification`_. Note
   however that you don't have to specify the width since it is automatically
-  computed. Useful format strings are ``"<"``, ``">"`` and ``"="`` for left
-  align, right align and centered columns respectively.
+  computed. Useful format strings are ``"<"``, ``">"`` and ``"="`` for
+  left-aligned, right-aligned and centered columns respectively.
 
 * ``corners`` and ``header_corners`` are strings containing the corner
   characters to be used for rows and the header row respectively. Follow the
