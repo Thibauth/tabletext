@@ -26,9 +26,9 @@ Library
 ~~~~~~~
 
 ``tabletext`` exposes a single function, ``to_text`` which in its simplest form
-takes a list of list (or any sequence_ of sequences_) and format it as a table.
-The data is assumed to be in `row-major order`_, meaning that the outer
-sequence's elements are the rows of the table.
+takes a list of lists (or any sequence_ of sequences_) and format it as
+a table.  The data is assumed to be in `row-major order`_, meaning that the
+outer sequence's elements are the rows of the table.
 
 .. _row-major order: https://en.wikipedia.org/wiki/Row-major_order
 .. _sequence:
@@ -93,9 +93,9 @@ the ``to_text`` function.
 Command line utility
 ~~~~~~~~~~~~~~~~~~~~
 
-The command line utility reads from its input the table, each line representing
-a row, its entries being separated by ``\t`` characters (configurable) and
-outputs the formatted table to the standard output:
+The command line utility reads the table from its input, each line representing
+a row, the row's entries being separated by ``\t`` characters (configurable),
+and outputs the formatted table to the standard output:
 
 .. code:: bash
 
