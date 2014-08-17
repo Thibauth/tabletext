@@ -161,7 +161,7 @@ More about some options:
   used for all entries, or a list of format strings, one per column of the
   table. The format strings must follow Python's `format specification`_. Note
   however that you don't have to specify the width since it is automatically
-  computed. Useful format strings are ``"<"``, ``">"`` and ``"="`` for
+  computed. Useful format strings are ``"<"``, ``">"`` and ``"^"`` for
   left-aligned, right-aligned and centered columns respectively.
 
 * ``corners`` and ``header_corners`` are strings containing the corner
